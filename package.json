@@ -1,15 +1,23 @@
 {
   "name": "notion-htmx",
-  "version": "1.0.50",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "bun run --watch src/index.ts"
+  "module": "main.ts",
+  "type": "module",
+  "devDependencies": {
+    "@elysiajs/static": "^0.8.1",
+    "@types/bun": "latest",
+    "@unocss/preset-icons": "^0.58.4",
+    "concurrently": "^8.2.2",
+    "typed-html": "^3.0.1",
+    "unocss": "^0.58.4"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
   },
   "dependencies": {
-    "elysia": "latest"
+    "@elysiajs/html": "^0.8.0",
+    "elysia": "^0.8.15"
   },
-  "devDependencies": {
-    "bun-types": "latest"
-  },
-  "module": "src/index.js"
+  "scripts": {
+    "dev": "concurrently \"bun run --hot main.tsx\" \"bunx --bun unocss --watch\""
+  }
 }
