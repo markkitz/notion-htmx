@@ -1,5 +1,10 @@
 import type { DataTable } from "../schema/dataTable";
+import { TableBody } from "./TableBody";
+import { TableHeader } from "./TableHeader";
 
 export default function DataTable({dataTable}: {dataTable: DataTable}) {
-    return (<div>hello from Data Table {dataTable.rows.length}</div>);
+    return (<div>
+        <TableHeader columns={dataTable.columns} />
+        <TableBody rows={dataTable.rows} columns={dataTable.columns}/>
+    </div>);
 }
