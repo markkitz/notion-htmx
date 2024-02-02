@@ -3,7 +3,6 @@
   "module": "main.ts",
   "type": "module",
   "devDependencies": {
-    "@elysiajs/static": "^0.8.1",
     "@types/bun": "latest",
     "@unocss/preset-icons": "^0.58.4",
     "concurrently": "^8.2.2",
@@ -15,6 +14,7 @@
   },
   "dependencies": {
     "@elysiajs/html": "^0.8.0",
+    "@elysiajs/static": "^0.8.1",
     "elysia": "^0.8.15"
   },
   "scripts": {
