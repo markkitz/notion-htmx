@@ -19,7 +19,7 @@ const BaseHTML = ({children}: elements.Children) => {
   return (
     <html lang="en">
       <head>
-        <title>My App</title>
+        <title>My App🦊</title>
         <link rel="stylesheet" href="/public/dist/unocss.css" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@unocss/reset/tailwind.min.css" />
       </head>
