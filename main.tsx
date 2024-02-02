@@ -6,12 +6,17 @@ import Test from "./src/components/Test";
 import { tableController } from "./src/controllers/tableController";
 import BaseHtml from "./src/components/BaseHtml";
 import DataTable from "./src/components/DataTable";
+import { ctx } from "./src/context";
 
 const app = new Elysia()
 .use(html())
+.use(ctx)
 .use(tableController)
 .use(staticPlugin())
-.get("/", ({html}) => html(<BaseHtml><DataTable/></BaseHtml>))
+.get("/", ({html, db}) =>{    
+    const dt = db().getDataTable("table1");
+    return html(<BaseHtml><DataTable dataTable={dt}/></BaseHtml>);
+})
 .get("/about", ({html}) => html(<Test />))
 
 .listen(3030);
