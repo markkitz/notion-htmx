@@ -15,7 +15,8 @@
   "dependencies": {
     "@elysiajs/html": "^0.8.0",
     "@elysiajs/static": "^0.8.1",
-    "elysia": "^0.8.15"
+    "elysia": "^0.8.15",
+    "nanoid": "^5.0.5"
   },
   "scripts": {
     "dev": "concurrently \"bun run --hot main.tsx\" \"bunx --bun unocss --watch\""
