@@ -18,7 +18,6 @@
 @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 .animate-spin{animation:spin 1s linear infinite;}
 .cursor-pointer{cursor:pointer;}
-.select-none{-webkit-user-select:none;user-select:none;}
 .items-center{align-items:center;}
 .justify-center{justify-content:center;}
 .border-t-1{border-top-width:1px;}
