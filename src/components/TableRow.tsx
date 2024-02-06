@@ -6,7 +6,7 @@ export default function TableRow({row, columns}: {row: Row, columns: Column[]}) 
         {columns.map((column) => {
             const value = row.cellData.find((cell) => cell.columnId === column.id)?.value || "";       
             return (
-               <Cell column={column} cellData={value}/>
+               <Cell column={column} cellData={value} rowId={row.id}/>
             )
         })}
 

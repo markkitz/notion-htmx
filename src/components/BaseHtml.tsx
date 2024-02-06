@@ -25,6 +25,8 @@ export default function ({ children }: BaseHtmlProps) {
         <title>My App🦊</title>
         <link rel="stylesheet" href="/public/dist/unocss.css" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@unocss/reset/tailwind.min.css" />
+        <script src="https://unpkg.com/htmx.org@1.9.5"></script>
+        <script src="https://unpkg.com/hyperscript.org@0.9.11"></script>
       </head>
       <body>
         <div class="flex justify-center pt-10 bg-zinc-900 min-h-screen text-sm" >

@@ -14,7 +14,22 @@ export function db() {
             }
             return dbDt;
 
-        }
+        },
+        setCellData: (tableId: string, rowId: string, columnId: string, value: string): void => {
+            const table = _dbTables.find((t) => t.id === tableId);
+            if (!table) {
+                throw new Error(`Table with id ${tableId} not found`);
+            }
+            const row = table.rows.find((r) => r.id === rowId);
+            if (!row) {
+                throw new Error(`Row with id ${rowId} not found`);
+            }
+            const cell = row.cellData.find((c) => c.columnId === columnId);
+            if (!cell) {
+                throw new Error(`Column with id ${columnId} not found`);
+            }
+            cell.value = value;
+        },
     }
 }
 
@@ -29,12 +44,12 @@ export function generateFakeTableData(tableId: string): DataTable {
         { id: `${tableId}_status`, width: 100, title: "Status", type: "string", tableId },
     ];
     const cellValues: Record<string, string[]> = {
-        [`${tableId}_done`]: ["true", "false", "true", "false", "true"],
-        [`${tableId}_todo`]: ["Buy milk", "Buy eggs", "Buy bread", "Buy cheese", "Buy wine"],
-        [`${tableId}_project`]: ["Grocery", "Grocery", "Grocery", "Grocery", "Grocery"],
-        [`${tableId}_status`]: ["Done", "Todo", "Todo", "Todo", "Done"],
+        [`${tableId}_done`]: ["true", "false", "true", "false", "false", "false"],
+        [`${tableId}_todo`]: ["Buy milk", "Buy eggs", "Buy bread", "Buy cheese", "Visit Mom", "Workout"],
+        [`${tableId}_project`]: ["Grocery", "Grocery", "Grocery", "Grocery", "Family", "Health"],
+        [`${tableId}_status`]: ["Today", "Today", "Today", "Today", "Tomorrow", "Tomorrow"],
     };
-    const rowIds = Array.from({ length: 5 }, () => nanoid());
+    const rowIds = Array.from({ length: 6 }, () => nanoid());
     const rows: Row[] = rowIds.map((id) => {
         return {
             id,
