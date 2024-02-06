@@ -5,12 +5,12 @@ export function TableHeader({columns}: {columns: Column[]}) {
           class="flex relative h-8  text-stone-400">
           
           {columns.map((column, n) => {
-              const isLast = n == columns.length - 1;
               return (
                   <div style={{width: `${column.width}px`}}>
                       {column.title}                    
                   </div>
               )
           })} 
+          <div class="flex-1 pl-2"></div>
     </div>);
 }

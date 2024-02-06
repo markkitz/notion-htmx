@@ -1,7 +1,6 @@
 import { html } from "@elysiajs/html";
 import { Elysia, t } from "elysia";
 import DataTable from "../components/DataTable";
-import BaseHtml from "../components/BaseHtml";
 import { ctx } from "../context";
 import Cell from "../components/cells/Cell";
 
