@@ -4,7 +4,6 @@ import CellSelect from "./CellSelect";
 import CellTemplate from "./CellTemplate";
 
 export default function Cell({column, cellData, rowId}: {column: Column, cellData: string | null, rowId: string}) {
-    console.log('cellData', cellData);
     if(column.type === 'boolean'){
         return (<CellBoolean column={column} checked={cellData === 'true'} rowId={rowId} />);
     }
