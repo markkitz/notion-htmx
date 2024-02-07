@@ -107,6 +107,7 @@
 .text-stone-300{--un-text-opacity:1;color:rgb(214 211 209 / var(--un-text-opacity));}
 .text-stone-400{--un-text-opacity:1;color:rgb(168 162 158 / var(--un-text-opacity));}
 .text-yellow-500{--un-text-opacity:1;color:rgb(234 179 8 / var(--un-text-opacity));}
+.font-bold{font-weight:700;}
 .font-medium{font-weight:500;}
 .accent-indigo-600{--un-accent-opacity:1;accent-color:rgb(79 70 229 / var(--un-accent-opacity));}
 .shadow-lg{--un-shadow:var(--un-shadow-inset) 0 10px 15px -3px var(--un-shadow-color, rgb(0 0 0 / 0.1)),var(--un-shadow-inset) 0 4px 6px -4px var(--un-shadow-color, rgb(0 0 0 / 0.1));box-shadow:var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow);}

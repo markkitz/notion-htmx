@@ -1,5 +1,6 @@
 import type { Color, Column } from "../../schema/dataTable";
 import CellTemplate from "./CellTemplate";
+import Chip from "./Chip";
 import { ChipSelected } from "./ChipSelected";
 
 export default function CellSelectEditor({ column, cellData, rowId }: { column: Column, cellData: string, rowId: string }) {
@@ -24,6 +25,14 @@ export default function CellSelectEditor({ column, cellData, rowId }: { column: 
     >
                    <ChipSelected rowId={rowId} color={selectedOption?.color || 'gray'} text={cellData} column={column} />
                    </div>
+                   {column.options?.map((option) => (<div class="block px-2 py-1  hover:bg-stone-700 " role="menuitem" tabindex="0"
+                        hx-patch={`/table/${column.tableId}/${rowId}/${column.id}`}
+                        hx-swap="outerHTML" 
+                        hx-trigger="click"          
+                        hx-target="#open-select"
+                        hx-vals={`js:{value: '${option.text}'}`}
+                        onkeyup="if(event.keyCode==13) this.click()"
+                    ><Chip text={option.text} color={option.color} /></div>))}
                 </div>
                 </div>
         </CellTemplate>
