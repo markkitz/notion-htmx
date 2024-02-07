@@ -6,5 +6,9 @@ export default function Cell({column, cellData, rowId}: {column: Column, cellDat
     if(column.type === 'boolean'){
         return (<CellBoolean column={column} checked={cellData === 'true'} rowId={rowId} />);
     }
-    return (<CellTemplate column={column}> {cellData}</CellTemplate>);
+    return (<CellTemplate column={column}
+        hx-get={`/table/${column.tableId}/${rowId}/${column.id}/edit`}
+        hx-swap="outerHTML"
+    
+    > {cellData}</CellTemplate>);
 }

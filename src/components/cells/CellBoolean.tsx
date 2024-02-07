@@ -5,7 +5,7 @@ export default function CellBoolean({ column, checked, rowId }: { column: Column
     return (
         <CellTemplate
             column={column}
-            hx-patch={`/table/${column.tableId}/rows/${rowId}/cells/${column.id}`}
+            hx-patch={`/table/${column.tableId}/${rowId}/${column.id}`}
             hx-vals={`js:{"value": '${!checked}'}`}
             hx-swap="outerHTML">
             <input
