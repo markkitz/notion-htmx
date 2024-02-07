@@ -5,7 +5,7 @@ import CellTemplate from "./cells/CellTemplate";
 export default function TableRow({row, columns}: {row: Row, columns: Column[]}) {
     return(<div class="flex  h-8 text-stone-100 relative">
         {columns.map((column) => {
-            const value = row.cellData.find((cell) => cell.columnId === column.id)?.value || "";       
+            const value = row.cellData.find((cell) => cell.columnId === column.id)?.value || null;       
             return (
                <Cell column={column} cellData={value} rowId={row.id}/>
             )
