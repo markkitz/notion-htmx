@@ -72,6 +72,40 @@ export function db() {
             };            
             table.rows.push(newRow);
             return newRow;
+        },
+        deleteRow: (tableId: string, rowId: string): void => {
+            const table = _dbTables.find((t) => t.id === tableId);
+            if (!table) {
+                throw new Error(`Table with id ${tableId} not found`);
+            }
+            const rowIdx = table.rows.findIndex((r) => r.id === rowId);
+            if (rowIdx === -1) {
+                throw new Error(`Row with id ${rowId} not found`);
+            }
+            table.rows.splice(rowIdx, 1);
+        },
+        duplicateRow: (tableId: string, rowId: string): Row => {
+            const table = _dbTables.find((t) => t.id === tableId);
+            if (!table) {
+                throw new Error(`Table with id ${tableId} not found`);
+            }
+            const row = table.rows.find((r) => r.id === rowId);
+            if (!row) {
+                throw new Error(`Row with id ${rowId} not found`);
+            }
+            const nanoid = customAlphabet('1234567890abcdef', 10);
+            const newRowId = nanoid();
+            const newRow: Row = {
+                id: newRowId,
+                cellData: row.cellData.map((c) => {
+                    return {
+                        columnId: c.columnId,
+                        value: c.value,
+                    };
+                }),
+            };
+            table.rows.push(newRow);
+            return newRow;
         }
     }
 }

@@ -1,10 +1,12 @@
 import type { Column, Row } from "../schema/dataTable";
+import RowMenu from "./RowMenu";
 import Cell from "./cells/Cell";
 import CellStringEditor from "./cells/CellStringEditor";
 import CellTemplate from "./cells/CellTemplate";
 
-export default function TableRow({row, columns, editColumnId }: {row: Row, columns: Column[], editColumnId?: string}) {
-    return(<div class="flex  h-8 text-stone-100 relative">
+export default function TableRow({row, columns, editColumnId, tableId }: {row: Row, columns: Column[], editColumnId?: string, tableId: string}) {
+    return(<div class="flex  h-8 text-stone-100 relative" id={`row-${row.id}`}>
+        <RowMenu rowId={row.id} tableId={tableId}  />
         {columns.map((column) => {
             const value = row.cellData.find((cell) => cell.columnId === column.id)?.value || null;    
             if(column.id === editColumnId){
