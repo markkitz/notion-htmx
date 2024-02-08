@@ -15,6 +15,7 @@
 .z-50{z-index:50;}
 .z-60{z-index:60;}
 .-mr-1{margin-right:-0.25rem;}
+.block{display:block;}
 .h-3\.5{height:0.875rem;}
 .h-4{height:1rem;}
 .h-5{height:1.25rem;}
@@ -69,6 +70,7 @@
 .hover\:bg-pink-500\/10:hover{background-color:rgb(236 72 153 / 0.1);}
 .hover\:bg-purple-500\/10:hover{background-color:rgb(168 85 247 / 0.1);}
 .hover\:bg-red-500\/10:hover{background-color:rgb(239 68 68 / 0.1);}
+.hover\:bg-stone-700:hover{--un-bg-opacity:1;background-color:rgb(68 64 60 / var(--un-bg-opacity));}
 .hover\:bg-yellow-500\/10:hover{background-color:rgb(234 179 8 / 0.1);}
 .stroke-blue-400\/50{stroke:rgb(96 165 250 / 0.5);}
 .stroke-gray-400\/50{stroke:rgb(156 163 175 / 0.5);}
@@ -86,6 +88,7 @@
 .group:hover .group-hover\:stroke-purple-100\/75{stroke:rgb(243 232 255 / 0.75);}
 .group:hover .group-hover\:stroke-red-100\/75{stroke:rgb(254 226 226 / 0.75);}
 .group:hover .group-hover\:stroke-yellow-100\/75{stroke:rgb(254 249 195 / 0.75);}
+.p-2{padding:0.5rem;}
 .px{padding-left:1rem;padding-right:1rem;}
 .px-2{padding-left:0.5rem;padding-right:0.5rem;}
 .py-0{padding-top:0;padding-bottom:0;}

@@ -1,5 +1,6 @@
 import { customAlphabet } from "nanoid";
-import type { Column, DataTable, Row } from "../schema/dataTable";
+import type { Color, Column, DataTable, Row } from "../schema/dataTable";
+import { selectColors } from "../components/cells/Chip";
 
 
 const _dbTables: DataTable[] = [];
@@ -30,6 +31,29 @@ export function db() {
             }
             cell.value = value;
         },
+        addColumnOption: (tableId: string, columnId: string, value: string): {text:string, color:Color} => {
+            const table = _dbTables.find((t) => t.id === tableId);
+            if (!table) {
+                throw new Error(`Table with id ${tableId} not found`);
+            }
+            const column = table.columns.find((c) => c.id === columnId);
+            if (!column) {
+                throw new Error(`Column with id ${columnId} not found`);
+            }
+            if (!column.options) {
+                column.options = [];
+            }
+            // check if value already exists
+            const option = column.options.find((option) => option.text === value);
+            if (!option) {
+                const randomColor = Object.keys(selectColors)[Math.floor(Math.random() * Object.keys(selectColors).length)] as keyof(typeof selectColors);               
+
+                column.options.push({ text: value, color: randomColor });
+                return {text: value, color: randomColor};
+
+            }
+            return option;
+        }
     }
 }
 

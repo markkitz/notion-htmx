@@ -4,7 +4,7 @@ import DataTable from "../components/DataTable";
 import { ctx } from "../context";
 import Cell from "../components/cells/Cell";
 import CellStringEditor from "../components/cells/CellStringEditor";
-import CellSelectEditor from "../components/cells/CellSelectEditor";
+import CellSelectEditor, { ChipEditor } from "../components/cells/CellSelectEditor";
 import type { DataTable as DataTableType } from "../schema/dataTable";
 
 export const tableController = new Elysia(
@@ -35,6 +35,41 @@ export const tableController = new Elysia(
         }),
         body: t.Object({
             value: t.Nullable( t.String())
+        })
+    })
+    .delete("/:tableId/:rowId/:columnId/chip", ({ params, db }) => {
+        db().setCellData(params.tableId, params.rowId, params.columnId, null);
+        const column = db().getDataTable(params.tableId).columns.find((column) => column.id === params.columnId);
+        if (!column) throw new Error("Column not found");
+        return (<ChipEditor rowId={params.rowId} color="gray" text={null} column={column} />); 
+    },
+    {
+        params: t.Object({
+            tableId: t.String(),
+            rowId: t.String(),
+            columnId: t.String()
+        })
+    })
+    .post("/:tableId/:rowId/:columnId/chip", ({ params, body, db }) => {
+        const value = body.value;
+        db().setCellData(params.tableId, params.rowId, params.columnId, value);
+        const column = db().getDataTable(params.tableId).columns.find((column) => column.id === params.columnId);
+        if (!column) throw new Error("Column not found");
+        // add value to options if not exists
+        let option = db().addColumnOption(params.tableId, params.columnId, value);
+        if (!option) {
+            option = db().addColumnOption(params.tableId, params.columnId, value);
+        }
+        return (<ChipEditor rowId={params.rowId} color={option.color} text={option.text} column={column} />);
+    },
+    {
+        params: t.Object({
+            tableId: t.String(),
+            rowId: t.String(),
+            columnId: t.String()
+        }),
+        body: t.Object({
+            value: t.String()
         })
     })
     .get("/:tableId/:rowId/:columnId", ({ params, db }) => {
