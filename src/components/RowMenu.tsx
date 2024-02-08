@@ -9,7 +9,7 @@ export default function RowMenu({ rowId, tableId, isOpen = false }: { rowId: str
         </div>)
     }
     return (
-        <div class={`row-drag-menu  pl-1 block w-6 flex items-center  h-8`}
+        <div class={`row-drag-menu opacity-0  pl-1 block w-6 flex items-center  h-8`}
             hx-get={`/table/${tableId}/${rowId}/row-menu`}
             hx-swap="outerHTML"
 
