@@ -5,7 +5,7 @@ import { ctx } from "../context";
 import Cell from "../components/cells/Cell";
 import CellStringEditor from "../components/cells/CellStringEditor";
 import CellSelectEditor, { ChipEditor } from "../components/cells/CellSelectEditor";
-import type { DataTable as DataTableType } from "../schema/dataTable";
+import type { Column, DataTable as DataTableType } from "../schema/dataTable";
 import TableRow from "../components/TableRow";
 import RowMenu from "../components/RowMenu";
 
@@ -185,7 +185,32 @@ export const tableController = new Elysia(
         })
 
     }
-    );
+    )
+    .post("/:tableId/column-resize", ({ params, db, body }) => {
+
+
+        const _columns = db().getDataTable(params.tableId).columns;
+        console.log(body.columns)
+        const columns = body.columns.map((c:string) =>  {
+            const colNew: Column = JSON.parse(c);
+            const tempColumn = _columns.find((c) => colNew.id == c.id);
+            return ({...tempColumn, ...colNew})
+        });
+        const dataTable = db().updateColumns(params.tableId, columns);
+        return (<DataTable dataTable={dataTable}  />);
+    },
+    {
+        params: t.Object({
+            tableId: t.String(),
+        }),
+        body: t.Object({
+            columns: t.Array(t.String())
+        })
+    }
+    
+    )
+    
+    ;
 
 function getColumnRowCellDataForDataTable(dataTable: DataTableType, rowId: string, columnId: string) {
     const column = dataTable.columns.find((column) => column.id === columnId);

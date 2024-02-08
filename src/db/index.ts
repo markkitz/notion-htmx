@@ -117,7 +117,17 @@ export function db() {
             });
 
             return table;
+        },
+        updateColumns: (tableId: string, columns: Column[]): DataTable => {
+            const table = _dbTables.find((t) => t.id === tableId);
+            if (!table) {
+                throw new Error(`Table with id ${tableId} not found`);
+            }
+            table.columns = columns;
+            return table;
         }
+
+        
 
     }
 }
@@ -127,10 +137,10 @@ export function generateFakeTableData(tableId: string): DataTable {
     const nanoid = customAlphabet('1234567890abcdef', 10)
 
     const columns: Column[] = [
-        { id: `${tableId}_done`, width: 100, title: "Done", type: "boolean", tableId },
-        { id: `${tableId}_todo`, width: 200, isMain: true, title: "Todo", type: "string", tableId },
-        { id: `${tableId}_project`, width: 100, title: "Project", type: "select", tableId, options: [{ text: "Grocery", color: "yellow" }, { text: "Family", color: "green" }, { text: "Health", color: "blue" }]},
-        { id: `${tableId}_status`, width: 100, title: "Status", type: "select", tableId, options: [{ text: "Today", color: "green" }, { text: "Tomorrow", color: "blue" }, { text: "Later", color: "gray" }]}
+        { id: `${tableId}_done`, x: 0, width: 100, title: "Done", type: "boolean", tableId },
+        { id: `${tableId}_todo`,  x: 100, width: 200, isMain: true, title: "Todo", type: "string", tableId },
+        { id: `${tableId}_project`, x: 300, width: 100, title: "Project", type: "select", tableId, options: [{ text: "Grocery", color: "yellow" }, { text: "Family", color: "green" }, { text: "Health", color: "blue" }]},
+        { id: `${tableId}_status`,  x: 400, width: 100, title: "Status", type: "select", tableId, options: [{ text: "Today", color: "green" }, { text: "Tomorrow", color: "blue" }, { text: "Later", color: "gray" }]}
     ];
     const cellValues: Record<string, (string | null)[]> = {
         [`${tableId}_done`]: ["true", "false", "true", "false", "false", "false"],

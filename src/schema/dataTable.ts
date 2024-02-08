@@ -7,6 +7,7 @@ export type DataTable = {
 export type Column = {
     id: string;
     width: number;
+    x: number;
     isMain?: boolean;
     title: string;
     type: "string"  | "select" | "date" | "number" | "boolean";
