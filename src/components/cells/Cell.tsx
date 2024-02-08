@@ -14,6 +14,8 @@ export default function Cell({column, cellData, rowId}: {column: Column, cellDat
     return (<CellTemplate column={column}
         hx-get={`/table/${column.tableId}/${rowId}/${column.id}/edit`}
         hx-swap="outerHTML"
+        hx-trigger="click, focus"
+       
     
     > {cellData || ""}</CellTemplate>);
 }

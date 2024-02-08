@@ -7,8 +7,13 @@ export default function CellBoolean({ column, checked, rowId }: { column: Column
             column={column}
             hx-patch={`/table/${column.tableId}/${rowId}/${column.id}`}
             hx-vals={`js:{"value": '${!checked}'}`}
-            hx-swap="outerHTML">
+            hx-swap="outerHTML"
+            hx-trigger="click, keyup[keyCode==13], keyup[keyCode==32]"
+            
+            
+            >
             <input
+                tabindex="-1"
                 id={`${rowId}-${column.id}`}
                 name="value"
                 type="checkbox"

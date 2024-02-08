@@ -7,6 +7,7 @@ export default function CellSelect({ column, option,   rowId }: { column: Column
         <CellTemplate
             hx-get={`/table/${column.tableId}/${rowId}/${column.id}/edit`}
             hx-swap="outerHTML"
+            hx-trigger="click, keyup[keyCode==13]"
             column={column}>
             <Chip text={option.text} color={option.color} />
         </CellTemplate>
