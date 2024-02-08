@@ -106,7 +106,19 @@ export function db() {
             };
             table.rows.push(newRow);
             return newRow;
+        },
+        sortRows: (tableId: string, orderedIds: string[]): DataTable => {
+            const table = _dbTables.find((t) => t.id === tableId);
+            if (!table) {
+                throw new Error(`Table with id ${tableId} not found`);
+            }
+            table.rows.sort((a, b) => {
+                return orderedIds.indexOf(a.id) - orderedIds.indexOf(b.id);
+            });
+
+            return table;
         }
+
     }
 }
 

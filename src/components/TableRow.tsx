@@ -5,7 +5,7 @@ import CellStringEditor from "./cells/CellStringEditor";
 import CellTemplate from "./cells/CellTemplate";
 
 export default function TableRow({row, columns, editColumnId, tableId }: {row: Row, columns: Column[], editColumnId?: string, tableId: string}) {
-    return(<div class="flex  h-8 text-stone-100 relative" id={`row-${row.id}`}
+    return(<div class="flex  h-8 text-stone-100 relative" id={`row-${row.id}`} data-row-id={row.id}
         _="
         on mouseenter remove .opacity-0 from .row-drag-menu in me  end
         on mouseleave add .opacity-0 to .row-drag-menu in me end
@@ -24,5 +24,4 @@ export default function TableRow({row, columns, editColumnId, tableId }: {row: R
         })}
         <div class="h-full   border-t-stone-700 border-t-1 flex-1 min-w-[30px]" ></div>
     </div>)
-
 }
