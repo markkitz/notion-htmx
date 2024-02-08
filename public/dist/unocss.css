@@ -163,4 +163,3 @@
 .focus\:ring-indigo-600:focus{--un-ring-opacity:1;--un-ring-color:rgb(79 70 229 / var(--un-ring-opacity));}
 .ring-opacity-5{--un-ring-opacity:0.05;}
 .ring-inset{--un-ring-inset:inset;}
-.blur{--un-blur:blur(8px);filter:var(--un-blur) var(--un-brightness) var(--un-contrast) var(--un-drop-shadow) var(--un-grayscale) var(--un-hue-rotate) var(--un-invert) var(--un-saturate) var(--un-sepia);}

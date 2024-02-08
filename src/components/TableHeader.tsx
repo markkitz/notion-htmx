@@ -1,11 +1,12 @@
 import type { Column } from "../schema/dataTable";
 
 export function TableHeader({columns}: {columns: Column[]}) {
-    return (<div  class="flex relative h-8  text-stone-400  font-bold items-center ml-6" id={`th-${columns[0].tableId}`}>          
+    return (<div  class="flex relative h-8  text-stone-400  font-bold items-center ml-6" id={`th-${columns[0].tableId}`} data-tableId={columns[0].tableId}>          
           {columns.map((column, n) => {
               return (
                 <div
                     id={column.id} class="absolute flex  cursor-grab  h-full select-none items-center px-2 text-sm font-bold hover:bg-stone-800 hover:opacity-80 hover:z-10"          
+                    onmousedown="columnMouseDown(event)"
                     style={`transform: translateX(${column.x}px);width:${column.width}px`}
                     data-column={column.id}
                     data-column-width={column.width}

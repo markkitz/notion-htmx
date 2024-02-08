@@ -9,14 +9,14 @@ export default function DataTable({dataTable}: {dataTable: DataTable}) {
             <TableBody rows={dataTable.rows} columns={dataTable.columns} tableId={dataTable.id}/>
         <AddItemRow tableId={dataTable.id} />
         <input type="hidden" 
-            id={`btn-resize-${dataTable.id}`} 
-            hx-post={`/table/${dataTable.id}/column-resize`} 
+            id={`hdn-columns-${dataTable.id}`} 
+            hx-post={`/table/${dataTable.id}/column-change`} 
             hx-target={`#dt-${dataTable.id}`} 
             hx-vals={`js:{columns: getColumnData('${dataTable.id}')}`}
             hx-trigger="click" 
             />
         <input type="hidden" 
-            id={`btn-sort-${dataTable.id}`}       
+            id={`hdn-rowsort-${dataTable.id}`}       
             hx-post={`/table/${dataTable.id}/sort`}  
             hx-target={`#rf-${dataTable.id}`} 
             hx-vals={`js:{item: getAllChildrenIds('rf-${dataTable.id}')}` }

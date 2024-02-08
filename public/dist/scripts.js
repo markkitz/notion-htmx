@@ -17,7 +17,7 @@ htmx.onLoad(function(content) {
 
 
           onEnd: function (evt) {             
-            document.getElementById(`btn-sort-${tableId}`).click();
+            document.getElementById(`hdn-rowsort-${tableId}`).click();
           }
       });
 
@@ -89,7 +89,7 @@ function expanderMouseDown(e, columnId, tableId) {
       document.onmouseup = null;
       childDiv.classList.remove('bg-blue-500');
       column.setAttribute('data-column-width', parseInt(column.style.width.replace('px', '')));
-      document.getElementById(`btn-resize-${tableId}`).click();
+      document.getElementById(`hdn-columns-${tableId}`).click();
   }
 }
 
@@ -111,19 +111,13 @@ function getStyle(x, width, doTransition = false) {
 ///////////////////////////////////////////////////////////////////
 
 function columnMouseDown(e) {  
-
-
   let parentElement = e.target.parentElement;
+  const tableId = parentElement.getAttribute("data-tableId");
   let _columnData = []
-  for (let i = 0; i < parentElement.children.length; i++) {
-      const child = parentElement.children[i];
-      
+  for (let i = 0; i < parentElement.children.length -1; i++) {
+      const child = parentElement.children[i];      
       const [id, width, x] = [child.getAttribute('id'), parseInt(child.style.width.replace("px", "")), getXTranslation(child.style.transform)];
       _columnData.push({ id, width, x });
-      // child.classList.add('absolute');
-      // child.classList.remove('relative');
-      // child.style = getStyle(x, width);
-
   }
   _columnData.sort((a, b) => a.x - b.x);
   let _columnIndex = _columnData.findIndex((x) => x.id === e.target.getAttribute("id"));
@@ -179,7 +173,7 @@ function columnMouseDown(e) {
           const div = document.getElementById(c.id);
           div.style = getStyle(c.x, c.width);
       }
-      document.getElementById('btnSubmitColumns').click();
+      document.getElementById(`hdn-columns-${tableId}`).click();
   }
   function moveColumn(direction) {
       const swapColumns = (index1, index2) => {

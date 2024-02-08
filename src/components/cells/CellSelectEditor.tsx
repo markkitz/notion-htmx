@@ -19,12 +19,15 @@ export default function CellSelectEditor({ column, cellData, rowId }: { column: 
                     hx-target="#open-select"
                 ></div>
                 <div
+                    id="cell-select-editor"
                     class="absolute x-100 left-0 z-60   w-[250px] origin-top-right  bg-zinc-800 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                     role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1"
-                    _="on focusout htmx.trigger('#modal-backstop', 'click') end">
+                    >
                     <ChipEditor column={column} text={selectedOption?.text || null} color={selectedOption?.color || "gray"} rowId={rowId} />
                     <div class="text-stone-400 p-2">Select an option or create a new one</div>
-                    {column.options?.map((option) => (<div class="block px-2 py-1  hover:bg-stone-700 " role="menuitem" tabindex="-1"
+                    {column.options?.map((option) => (<div 
+                    class="block px-2 py-1  hover:bg-stone-700 " role="menuitem" tabindex="0"
+                        
                         hx-patch={`/table/${column.tableId}/${rowId}/${column.id}`}
                         hx-swap="outerHTML"
                         hx-trigger="click"
@@ -33,7 +36,9 @@ export default function CellSelectEditor({ column, cellData, rowId }: { column: 
                         onkeyup="if(event.keyCode==13) this.click()"
                     ><Chip text={option.text} color={option.color} /></div>))}
                 </div>
+
             </div>
+       
 
         </CellTemplate>
 

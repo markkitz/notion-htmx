@@ -5,13 +5,6 @@ export default function CellStringEditor({ column, cellData, rowId }: { column: 
     return (
 
         <CellTemplate column={column} noPadding>
-            <form
-                hx-patch={`/table/${column.tableId}/${rowId}/${column.id}`}
-                hx-swap="outerHTML"
-                hx-trigger="inputblur"
-                hx-target="closest div"
-                class="w-full h-full"
-            >
                 <input
                     id={`${rowId}-${column.id}`}
                     name="value"
@@ -19,10 +12,12 @@ export default function CellStringEditor({ column, cellData, rowId }: { column: 
                     value={cellData}
                     autofocus="true"
                     onfocus="this.setSelectionRange(this.value.length, this.value.length);"
+                    hx-patch={`/table/${column.tableId}/${rowId}/${column.id}`}
+                    hx-swap="outerHTML"
+                    hx-trigger="blur, keyup[keyCode==13]"
+                    hx-target="closest div"
                     class="bg-zinc-700 w-full py-0 px-2 h-full flex items-center text-sm"
-                    _="on blur trigger inputblur"
                 />
-            </form>
         </CellTemplate>
 
     );

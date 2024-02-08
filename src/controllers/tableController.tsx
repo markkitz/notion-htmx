@@ -186,9 +186,7 @@ export const tableController = new Elysia(
 
     }
     )
-    .post("/:tableId/column-resize", ({ params, db, body }) => {
-
-
+    .post("/:tableId/column-change", ({ params, db, body }) => {
         const _columns = db().getDataTable(params.tableId).columns;
         console.log(body.columns)
         const columns = body.columns.map((c:string) =>  {
@@ -206,10 +204,7 @@ export const tableController = new Elysia(
         body: t.Object({
             columns: t.Array(t.String())
         })
-    }
-    
-    )
-    
+    })    
     ;
 
 function getColumnRowCellDataForDataTable(dataTable: DataTableType, rowId: string, columnId: string) {
