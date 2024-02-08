@@ -53,6 +53,25 @@ export function db() {
 
             }
             return option;
+        },
+        addRow: (tableId: string): Row => {
+            const table = _dbTables.find((t) => t.id === tableId);
+            if (!table) {
+                throw new Error(`Table with id ${tableId} not found`);
+            }
+            const nanoid = customAlphabet('1234567890abcdef', 10);
+            const rowId = nanoid();
+            const newRow: Row = {
+                id: rowId,
+                cellData: table.columns.map((c) => {
+                    return {
+                        columnId: c.id,
+                        value: null,
+                    };
+                }),
+            };            
+            table.rows.push(newRow);
+            return newRow;
         }
     }
 }

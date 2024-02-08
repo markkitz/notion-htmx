@@ -6,6 +6,7 @@ import Cell from "../components/cells/Cell";
 import CellStringEditor from "../components/cells/CellStringEditor";
 import CellSelectEditor, { ChipEditor } from "../components/cells/CellSelectEditor";
 import type { DataTable as DataTableType } from "../schema/dataTable";
+import TableRow from "../components/TableRow";
 
 export const tableController = new Elysia(
     { prefix: "/table" }
@@ -17,7 +18,19 @@ export const tableController = new Elysia(
         params: t.Object({
             tableId: t.String(),
         })
-    })        
+    })   
+    .post("/:tableId/row", ({ params, db }) => {
+        const row = db().addRow(params.tableId);
+        const columns = db().getDataTable(params.tableId).columns;
+        //get first string column
+        const firstStringColumn = columns.find((column) => column.type === "string");
+        return(<TableRow row={row} columns={columns} editColumnId={firstStringColumn?.id} />);
+    },
+    {
+        params: t.Object({
+            tableId: t.String(),
+        })
+    })
     .patch("/:tableId/:rowId/:columnId", ({ params, body, db }) => {
         const value = !body.value || body.value === "null" || body.value.trim().length === 0  ? null : body.value;
 
