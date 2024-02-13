@@ -4,6 +4,8 @@ A tutorial that builds a feature rich Notion style data table.
 
 ![Data Table!](read_me_files/datatable.gif)
 
+![Drop Down!](read_me_files/world_domination.gif)
+
 Tech Stack:
 - HTMX
 - Bun
