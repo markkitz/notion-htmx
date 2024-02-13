@@ -12,9 +12,9 @@ import RowMenu from "../components/RowMenu";
 export const tableController = new Elysia(
     { prefix: "/table" }
 )
-    .use(html())
+
     .use(ctx)
-    .get("/:tableId", ({ html, db, params }) => html(<DataTable dataTable={db().getDataTable(params.tableId)} />),
+    .get("/:tableId", ({  db, params }) => <DataTable dataTable={db().getDataTable(params.tableId)} />,
         {
             params: t.Object({
                 tableId: t.String(),
@@ -188,7 +188,6 @@ export const tableController = new Elysia(
     )
     .post("/:tableId/column-change", ({ params, db, body }) => {
         const _columns = db().getDataTable(params.tableId).columns;
-        console.log(body.columns)
         const columns = body.columns.map((c:string) =>  {
             const colNew: Column = JSON.parse(c);
             const tempColumn = _columns.find((c) => colNew.id == c.id);

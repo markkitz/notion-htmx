@@ -3,7 +3,7 @@ htmx.onLoad(function(content) {
     
     for (var i = 0; i < sortables.length; i++) {
       var sortable = sortables[i];
-      const tableId = sortable.getAttribute("data-tableId");
+      const tableId = sortable.getAttribute("data-tableId");   
       var sortableInstance = new Sortable(sortable, {
           animation: 150,
           ghostClass: 'row-being-dragged',
@@ -42,7 +42,7 @@ function getAllChildrenIds(parentId) {
 function getColumnData(tableId) {
   const parentElement = document.getElementById(`th-${tableId}`);
   let _columnData = []
-  for (let i = 0; i < parentElement.children.length -1; i++) {
+  for (let i = 0; i < parentElement.children.length; i++) {
       const child = parentElement.children[i];
       const [id, width, x] = [child.getAttribute('id'), parseInt(child.style.width.replace("px", "")), getXTranslation(child.style.transform)];
       _columnData.push({ id, width, x });
@@ -114,7 +114,7 @@ function columnMouseDown(e) {
   let parentElement = e.target.parentElement;
   const tableId = parentElement.getAttribute("data-tableId");
   let _columnData = []
-  for (let i = 0; i < parentElement.children.length -1; i++) {
+  for (let i = 0; i < parentElement.children.length; i++) {
       const child = parentElement.children[i];      
       const [id, width, x] = [child.getAttribute('id'), parseInt(child.style.width.replace("px", "")), getXTranslation(child.style.transform)];
       _columnData.push({ id, width, x });

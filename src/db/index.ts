@@ -138,7 +138,7 @@ export function generateFakeTableData(tableId: string): DataTable {
 
     const columns: Column[] = [
         { id: `${tableId}_done`, x: 0, width: 100, title: "Done", type: "boolean", tableId },
-        { id: `${tableId}_todo`,  x: 100, width: 200, isMain: true, title: "Todo", type: "string", tableId },
+        { id: `${tableId}_todo`,  x: 100, width: 200,  title: "Todo", type: "string", tableId },
         { id: `${tableId}_project`, x: 300, width: 100, title: "Project", type: "select", tableId, options: [{ text: "Grocery", color: "yellow" }, { text: "Family", color: "green" }, { text: "Health", color: "blue" }]},
         { id: `${tableId}_status`,  x: 400, width: 100, title: "Status", type: "select", tableId, options: [{ text: "Today", color: "green" }, { text: "Tomorrow", color: "blue" }, { text: "Later", color: "gray" }]}
     ];

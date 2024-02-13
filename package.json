@@ -1,12 +1,11 @@
 {
   "name": "notion-htmx",
-  "module": "main.ts",
+  "module": "main.tsx",
   "type": "module",
   "devDependencies": {
     "@types/bun": "latest",
     "@unocss/preset-icons": "^0.58.4",
     "concurrently": "^8.2.2",
-    "typed-html": "^3.0.1",
     "unocss": "^0.58.4"
   },
   "peerDependencies": {

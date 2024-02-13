@@ -11,7 +11,6 @@ export default function Cell({column, cellData, rowId}: {column: Column, cellDat
         
         return (<CellSelect column={column} option={column.options?.find((option) => option.text === cellData) || {text: cellData, color: 'gray'}} rowId={rowId} />);
     }
-    console.log(column)
     return (<CellTemplate column={column}
         hx-get={`/table/${column.tableId}/${rowId}/${column.id}/edit`}
         hx-swap="outerHTML"
