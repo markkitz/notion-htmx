@@ -1,24 +1,19 @@
-import {Elysia} from "elysia";
-import {html} from "@elysiajs/html";
-import { staticPlugin } from '@elysiajs/static'
-
+import { Elysia } from "elysia";
+import { html } from "@elysiajs/html";
+import {staticPlugin} from "@elysiajs/static";
+import Test from "./src/Test";
 import { tableController } from "./src/controllers/tableController";
-import BaseHtml from "./src/components/BaseHtml";
-import DataTable from "./src/components/DataTable";
 import { ctx } from "./src/context";
-
+import DataTable from "./src/components/DataTable";
+import BaseHTML from "./src/components/BaseHTML";
 const app = new Elysia()
 .use(html())
-.use(ctx)
-.use(tableController)
 .use(staticPlugin())
-.get("/", ({html, db}) =>{    
+.use(tableController)
+.use(ctx)
+.get("/", ({db}) => {
     const dt = db().getDataTable("table1");
-    return html(<BaseHtml><DataTable dataTable={dt}/></BaseHtml>);
-})
 
+return (<BaseHTML><DataTable dataTable={dt}/></BaseHTML>)})
 .listen(3030);
-
-console.log(`🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`);
-
-
+console.log(`🦊 Listening on ${app.server?.hostname}: ${app.server?.port}`);

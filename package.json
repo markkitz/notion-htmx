@@ -4,9 +4,9 @@
   "type": "module",
   "devDependencies": {
     "@types/bun": "latest",
-    "@unocss/preset-icons": "^0.58.4",
+    "@unocss/preset-icons": "^0.58.5",
     "concurrently": "^8.2.2",
-    "unocss": "^0.58.4"
+    "unocss": "^0.58.5"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
@@ -15,7 +15,7 @@
     "@elysiajs/html": "^0.8.0",
     "@elysiajs/static": "^0.8.1",
     "@iconify-json/mdi": "^1.1.64",
-    "elysia": "^0.8.15",
+    "elysia": "^0.8.16",
     "nanoid": "^5.0.5"
   },
   "scripts": {

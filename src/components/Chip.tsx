@@ -1,28 +1,25 @@
-import type { Color } from "../../schema/dataTable";
+import type { Color } from "../schema/dataTable";
 
-
-
-export default function Chip({ text, color,  onclick  }: { text: string, color: Color, onclick?:string  } ) {
-
-  const colorClasses = selectColors[color] || "bg-gray-100/10 text-gray-800 ring-gray-400/20";
-  if (onclick) {
-    return (
-      <span class={`inline-flex items-center gap-x-0.5 rounded-md  px-2 py-1 text-xs font-medium ring-1 ring-inset ${colorClasses.default}`}>
+export default function Chip({ color, text, onclick }: { color: Color, text: string, onclick?:string}) {
+    if(onclick){
+        return (
+          <span class={`inline-flex items-center gap-x-0.5 rounded-md  px-2 py-1 text-xs font-medium ring-1 ring-inset ${selectColors[color].default}`}>
+            {text}
+            <button type="button" class={`group relative -mr-1 h-3.5 w-3.5 rounded-sm ${selectColors[color].btnHover}`}
+              onclick={onclick}
+            >
+              <span class="sr-only">Remove</span>
+              <svg viewBox="0 0 14 14" class={`h-3.5 w-3.5 ${selectColors[color].icon}`}>
+                <path d="M4 4l6 6m0-6l-6 6" />
+              </svg>
+              <span class="absolute -inset-1"></span>
+            </button>
+          </span>)
+      }
+    return (<span class={`inline-flex items-center gap-x-0.5 rounded-md  px-2 py-1 text-xs font-medium ring-1 ring-inset ${selectColors[color].default}`}>
         {text}
-        <button type="button" class={`group relative -mr-1 h-3.5 w-3.5 rounded-sm ${colorClasses.btnHover}`}
-          onclick={onclick}
-        >
-          <span class="sr-only">Remove</span>
-          <svg viewBox="0 0 14 14" class={`h-3.5 w-3.5 ${colorClasses.icon}`}>
-            <path d="M4 4l6 6m0-6l-6 6" />
-          </svg>
-          <span class="absolute -inset-1"></span>
-        </button>
-      </span>)
-  }
-  return (<span class={`inline-flex items-center rounded-md  px-2 py-1 text-xs font-medium  ring-1 ring-inset ${colorClasses.default}`}>{text}</span>)
+    </span>)
 }
-
 export const selectColors: { [key in Color]: { default: string, btnHover: string, icon: string } } = {
     yellow: { default: "bg-yellow-400/10 text-yellow-500 ring-yellow-400/20", btnHover: "hover:bg-yellow-500/10", icon: "stroke-yellow-400/50 group-hover:stroke-yellow-100/75" },
     green: { default: "bg-green-500/10 text-green-400 ring-green-500/20", btnHover: "hover:bg-green-500/10", icon: "stroke-green-400/50 group-hover:stroke-green-100/75" },
