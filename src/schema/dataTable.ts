@@ -7,10 +7,11 @@ export type DataTable = {
 export type Column = {
     id: string;
     width: number;
-    isMain?: boolean;
+    x: number;
     title: string;
-    type: "string"  | "dropdown" | "date" | "number" | "boolean";
+    type: "string"  | "select" | "date" | "number" | "boolean";
     tableId: string;
+    options?: { text:string, color:Color }[];
 };
 export type Row = {
     id: string;
@@ -18,5 +19,7 @@ export type Row = {
 }
 export type CellData = {
     columnId: string;
-    value: string;
+    value: string | null;
 }
+
+export type Color = "yellow" | "green" | "blue" | "red" | "gray" | "pink" | "orange" | "purple";
