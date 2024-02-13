@@ -1,21 +1,22 @@
-import type { Column } from "../../schema/dataTable";
-import CellBoolean from "./CellBoolean";
+import type { CellData,  Column } from "../../schema/dataTable";
+import BooleanCell from "./BooleanCell";
 import CellSelect from "./CellSelect";
 import CellTemplate from "./CellTemplate";
 
-export default function Cell({column, cellData, rowId}: {column: Column, cellData: string | null, rowId: string}) {
-    if(column.type === 'boolean'){
-        return (<CellBoolean column={column} checked={cellData === 'true'} rowId={rowId} />);
+export default function Cell({ cellData, column, rowId }: { cellData: CellData, column: Column, rowId:string}) {
+    if(column.type === "boolean") {
+        return (<BooleanCell checked={cellData.value === "true"} column={column} rowId={rowId} />);
     }
-    if(!!cellData && column.type === 'select'){
-        
-        return (<CellSelect column={column} option={column.options?.find((option) => option.text === cellData) || {text: cellData, color: 'gray'}} rowId={rowId} />);
+    if(cellData.value && column.type === "select") {
+        return(<CellSelect option={column.options?.find((option) => option.text === cellData.value) || {text: cellData.value || "", color: "gray"}} column={column} rowId={rowId} />)
     }
-    return (<CellTemplate column={column}
+    return(<CellTemplate column={column} rowId={rowId}
         hx-get={`/table/${column.tableId}/${rowId}/${column.id}/edit`}
         hx-swap="outerHTML"
         hx-trigger="click, focus"
-       
     
-    > {cellData || ""}</CellTemplate>);
+    >
+        {cellData.value || ""}
+    </CellTemplate>);
 }
+

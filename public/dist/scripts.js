@@ -3,21 +3,16 @@ htmx.onLoad(function(content) {
     
     for (var i = 0; i < sortables.length; i++) {
       var sortable = sortables[i];
-      const tableId = sortable.getAttribute("data-tableId");   
+      const tableId = sortable.getAttribute("data-tableId");
       var sortableInstance = new Sortable(sortable, {
           animation: 150,
           ghostClass: 'row-being-dragged',
-          handle: ".drag-handle",       
-
-          onStart: function (evt) {
-       
-          },
-          onMove: function (evt) {
-          },
+          handle: ".drag-handle",        
 
 
-          onEnd: function (evt) {             
+          onEnd: function (evt) {     
             document.getElementById(`hdn-rowsort-${tableId}`).click();
+
           }
       });
 
@@ -37,37 +32,39 @@ function getAllChildrenIds(parentId) {
     return ids;
 }
 
-
+/////////////////////////
 
 function getColumnData(tableId) {
-  const parentElement = document.getElementById(`th-${tableId}`);
-  let _columnData = []
-  for (let i = 0; i < parentElement.children.length; i++) {
-      const child = parentElement.children[i];
-      const [id, width, x] = [child.getAttribute('id'), parseInt(child.style.width.replace("px", "")), getXTranslation(child.style.transform)];
-      _columnData.push({ id, width, x });
+    const parentElement = document.getElementById(`th-${tableId}`);
+    let _columnData = []
+    for (let i = 0; i < parentElement.children.length; i++) {
+        const child = parentElement.children[i];
+        const [id, width, x] = [child.getAttribute('id'), parseInt(child.style.width.replace("px", "")), getXTranslation(child.style.transform)];
+        _columnData.push({ id, width, x });
+    }
+  
+    _columnData.sort((a, b) => a.x - b.x);
+    return _columnData;
+  }
+  
+  function resizeColumn(columnId, tableId,  width) {
+    document.querySelectorAll(`div[data-column='${columnId}']`).forEach((div) => {
+        div.style.width = `${width}px`;
+    });
+    const _columnData = getColumnData(tableId);
+    let x = 0;
+    // reset the x position of each column
+    for (let i = 0; i < _columnData.length; i++) {
+        const c = _columnData[i];
+        c.x = x;
+        x += c.width;
+        let div = document.getElementById(c.id);
+        div.style = getStyle(c.x, c.width);
+    }
+  
   }
 
-  _columnData.sort((a, b) => a.x - b.x);
-  return _columnData;
-}
 
-function resizeColumn(columnId, tableId,  width) {
-  document.querySelectorAll(`div[data-column='${columnId}']`).forEach((div) => {
-      div.style.width = `${width}px`;
-  });
-  const _columnData = getColumnData(tableId);
-  let x = 0;
-  // reset the x position of each column
-  for (let i = 0; i < _columnData.length; i++) {
-      const c = _columnData[i];
-      c.x = x;
-      x += c.width;
-      let div = document.getElementById(c.id);
-      div.style = getStyle(c.x, c.width);
-  }
-
-}
 
 const MIN_COLUMN_WIDTH = 50;
 
@@ -107,106 +104,105 @@ function getStyle(x, width, doTransition = false) {
       : "";
   return [widthStyle, transform, transition].join("");
 }
-
-///////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////
 
 function columnMouseDown(e) {  
-  let parentElement = e.target.parentElement;
-  const tableId = parentElement.getAttribute("data-tableId");
-  let _columnData = []
-  for (let i = 0; i < parentElement.children.length; i++) {
-      const child = parentElement.children[i];      
-      const [id, width, x] = [child.getAttribute('id'), parseInt(child.style.width.replace("px", "")), getXTranslation(child.style.transform)];
-      _columnData.push({ id, width, x });
+    let parentElement = e.target.parentElement;
+    const tableId = parentElement.getAttribute("data-tableId");
+    let _columnData = []
+    for (let i = 0; i < parentElement.children.length; i++) {
+        const child = parentElement.children[i];      
+        const [id, width, x] = [child.getAttribute('id'), parseInt(child.style.width.replace("px", "")), getXTranslation(child.style.transform)];
+        _columnData.push({ id, width, x });
+    }
+    _columnData.sort((a, b) => a.x - b.x);
+    let _columnIndex = _columnData.findIndex((x) => x.id === e.target.getAttribute("id"));
+    let _columnMoving = e.target;
+    let _headerLeftBounds = e.target.parentElement.getBoundingClientRect().left;
+    let _columnOffset = e.offsetX;
+  
+    function handleMouseMove(e) {
+        if (!_columnMoving) {
+            return;
+        }
+        const colTranslateX = Math.round(e.clientX - _columnOffset - _headerLeftBounds);
+        let mousePositionOnTrack = e.clientX - _headerLeftBounds;
+  
+        let rightXTrigger =
+            _columnIndex < _columnData.length - 1 ? _columnData[_columnIndex + 1].x : null;
+        let leftXTrigger = _columnIndex > 0 ? _columnData[_columnIndex - 1].x + _columnData[_columnIndex - 1].width : null;
+  
+        if (colTranslateX < 0) {
+            _columnMoving.style.transform = `translateX(0px)`;
+            return;
+        }
+        if (!rightXTrigger && colTranslateX > _columnData[_columnIndex].x) {
+            _columnMoving.style.transform = `translateX(${_columnData[_columnIndex].x}px)`;
+            return;
+        }
+        if (
+            !!rightXTrigger &&
+            mousePositionOnTrack > rightXTrigger
+        ) {
+            moveColumn("right");
+            return;
+        }
+        else if (
+            !!leftXTrigger &&
+            mousePositionOnTrack < leftXTrigger
+        ) {
+            moveColumn("left");
+  
+        }
+        _columnMoving.style.transform = `translateX(${colTranslateX}px)`;
+  
+    }
+    function handleMouseUp() {
+      
+        // Remove listeners on mouse up
+        window.removeEventListener("mousemove", handleMouseMove);
+        window.removeEventListener("mouseup", handleMouseUp);
+  
+        _columnMoving = null;
+        for (let i = 0; i < _columnData.length; i++) {
+            const c = _columnData[i];
+            const div = document.getElementById(c.id);
+            div.style = getStyle(c.x, c.width);
+        }
+        document.getElementById(`hdn-columns-${tableId}`).click();
+    }
+    function moveColumn(direction) {
+        const swapColumns = (index1, index2) => {
+            const temp = _columnData[index1];
+            _columnData[index1] = _columnData[index2];
+            _columnData[index2] = temp;
+        };
+  
+        if (direction === "right" && _columnIndex < _columnData.length - 1) {
+            swapColumns(_columnIndex, _columnIndex + 1);
+            _columnIndex++;
+        } else if (direction === "left" && _columnIndex > 0) {
+            swapColumns(_columnIndex, _columnIndex - 1);
+            _columnIndex--;
+        } else {
+            // Handle invalid direction or column index
+            return;
+        }
+  
+        let stopX = 0;
+        _columnData.forEach((column) => {
+            column.x = stopX;
+            stopX += column.width;
+        });
+  
+        const columnMoved = direction === "right" ? _columnData[_columnIndex - 1] : _columnData[_columnIndex + 1];
+        const div = document.getElementById(columnMoved.id);
+        div.style = getStyle(columnMoved.x, columnMoved.width, true);
+    }
+  
+  
+  
+    // Add listeners on mouse down
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
   }
-  _columnData.sort((a, b) => a.x - b.x);
-  let _columnIndex = _columnData.findIndex((x) => x.id === e.target.getAttribute("id"));
-  let _columnMoving = e.target;
-  let _headerLeftBounds = e.target.parentElement.getBoundingClientRect().left;
-  let _columnOffset = e.offsetX;
-
-  function handleMouseMove(e) {
-      if (!_columnMoving) {
-          return;
-      }
-      const colTranslateX = Math.round(e.clientX - _columnOffset - _headerLeftBounds);
-      let mousePositionOnTrack = e.clientX - _headerLeftBounds;
-
-      let rightXTrigger =
-          _columnIndex < _columnData.length - 1 ? _columnData[_columnIndex + 1].x : null;
-      let leftXTrigger = _columnIndex > 0 ? _columnData[_columnIndex - 1].x + _columnData[_columnIndex - 1].width : null;
-
-      if (colTranslateX < 0) {
-          _columnMoving.style.transform = `translateX(0px)`;
-          return;
-      }
-      if (!rightXTrigger && colTranslateX > _columnData[_columnIndex].x) {
-          _columnMoving.style.transform = `translateX(${_columnData[_columnIndex].x}px)`;
-          return;
-      }
-      if (
-          !!rightXTrigger &&
-          mousePositionOnTrack > rightXTrigger
-      ) {
-          moveColumn("right");
-          return;
-      }
-      else if (
-          !!leftXTrigger &&
-          mousePositionOnTrack < leftXTrigger
-      ) {
-          moveColumn("left");
-
-      }
-      _columnMoving.style.transform = `translateX(${colTranslateX}px)`;
-
-  }
-  function handleMouseUp() {
-    
-      // Remove listeners on mouse up
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mouseup", handleMouseUp);
-
-      _columnMoving = null;
-      for (let i = 0; i < _columnData.length; i++) {
-          const c = _columnData[i];
-          const div = document.getElementById(c.id);
-          div.style = getStyle(c.x, c.width);
-      }
-      document.getElementById(`hdn-columns-${tableId}`).click();
-  }
-  function moveColumn(direction) {
-      const swapColumns = (index1, index2) => {
-          const temp = _columnData[index1];
-          _columnData[index1] = _columnData[index2];
-          _columnData[index2] = temp;
-      };
-
-      if (direction === "right" && _columnIndex < _columnData.length - 1) {
-          swapColumns(_columnIndex, _columnIndex + 1);
-          _columnIndex++;
-      } else if (direction === "left" && _columnIndex > 0) {
-          swapColumns(_columnIndex, _columnIndex - 1);
-          _columnIndex--;
-      } else {
-          // Handle invalid direction or column index
-          return;
-      }
-
-      let stopX = 0;
-      _columnData.forEach((column) => {
-          column.x = stopX;
-          stopX += column.width;
-      });
-
-      const columnMoved = direction === "right" ? _columnData[_columnIndex - 1] : _columnData[_columnIndex + 1];
-      const div = document.getElementById(columnMoved.id);
-      div.style = getStyle(columnMoved.x, columnMoved.width, true);
-  }
-
-
-
-  // Add listeners on mouse down
-  window.addEventListener("mousemove", handleMouseMove);
-  window.addEventListener("mouseup", handleMouseUp);
-}

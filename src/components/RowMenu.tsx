@@ -1,23 +1,18 @@
-
-export default function RowMenu({ rowId, tableId, isOpen = false }: { rowId: string, tableId: string, isOpen?: boolean }) {
-    if (isOpen) {
-        return (<div class={`row-menu-open relative  pl-1 block w-6 flex items-center  h-8`}
-            id="row-menu-open"
-        >
+export default function RowMenu({ rowId, tableId,  isOpen=false }: { rowId: string, tableId: string, isOpen?: boolean}) {   
+    if(isOpen) {
+        return(<div class={`row-menu-open relative pl-1 block w-6 flex items-center  h-8`} id="row-menu-open">
             <div class="i-mdi-drag text-lg drag-handle"></div>
             <RowMenuContent rowId={rowId} tableId={tableId} />
         </div>)
     }
     return (
-        <div class={`row-drag-menu opacity-0  pl-1 block w-6 flex items-center  h-8`}
-            hx-get={`/table/${tableId}/${rowId}/row-menu`}
-            hx-swap="outerHTML"
-
-        >
-            <div class="i-mdi-drag text-lg drag-handle"></div>
-        </div>)
+    <div class={`row-drag-menu  pl-1 block w-6 flex items-center  h-8 opacity-0`}
+        hx-get={`/table/${tableId}/${rowId}/row-menu`}
+        hx-swap="outerHTML"       
+    >
+        <div class="i-mdi-drag text-lg drag-handle"></div>
+    </div>)
 }
-
 
 function RowMenuContent({ rowId, tableId }: { rowId: string, tableId: string }) {
     return (<>
@@ -50,7 +45,6 @@ function RowMenuContent({ rowId, tableId }: { rowId: string, tableId: string }) 
 
     </>)
 }
-
 
 
 type RowMenuContextItemProps = {
